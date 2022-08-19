@@ -1,0 +1,13 @@
+'fg bg' =: i. 2
+'black red green yellow blue magenta cyan white' =: i. 8
+mk_col =: ] + 30 + 10 * [
+col =: (fg mk_col [) , (bg mk_col ])
+bold =: 1
+esc =: 27 { a.
+semi_sep =: [: ; [: ([,';',])&:>/ (<@":"0)
+mk_ansi =: esc , '[' , 'm' ,~ semi_sep
+ansi =: (mk_ansi 0) ,~ mk_ansi@[ , ]
+rainbow_alphabet =: , (ansi"1 0~ 1 ,. 31 41 (+"1) 6 | 3 0 +/~ i.@#) 26 {. 65 }. a.
+rainbow_216 =: ; ' ' <@ansi"1~ ] 48 ,. 5 ,. 216 {. 16 }. i. 256
+rainbow_65536 =: ; ' ' <@ansi"1~ ] 48 2 ,"1 ] 15 + 16 * 16 16 16 #: i. 16 16 16
+print =: '' [ (1!:2&4)
