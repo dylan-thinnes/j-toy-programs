@@ -5,10 +5,11 @@ is_prefix =: [ -:&:, ({.~ #)~
 to_parser =: (([. @: {. ; }.)~) ].
 then =: (]. @: > @: {: ,~ }:) @: [.
 
-constant =: [ to_parser (]: & (is_prefix * #@:[))
-number =: ". to_parser (0 i.~ '0123456789' e.~ ])
+many_of =: [. to_parser ((0 []) i.~ (]. (e.~) ]))
+one_of =: [. to_parser ([: * ((0 []) i.~ (]. (e.~) ])))
+number =: ". many_of '0123456789'
 
-parse_die =: number then ('d' constant) then number then ('+' constant) then number
+parse_die =: number then ([ one_of 'd') then number then ([ one_of '+-') then number
 
 at =: [: > {
 valid_parse =: (6 = #) *. (0 < [: # 2 at ]) *. ('d' = 1 at ]) *. (0 = [: # 5 at ])
