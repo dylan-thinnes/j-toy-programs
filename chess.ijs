@@ -18,9 +18,22 @@ get =: ,@[ {~ 8 8 #. ]
 mask =: (i. 8 8) e. 8 8 #. ]
 unset =: * -.@mask
 move =: unset + mask@:{:@] * (get {.)
+show_mask =: [: u: 16b2591 16b2588 {~ ]
 
 render =: ,@:(out"0)"1
 
 relative_coords =: ((#: i.) 8 8) -"1 ]
 bishop_mask =: [: =/"1 [: (**) relative_coords
 rook_mask =: [: +./"1 [] 0 = relative_coords
+queen_mask =: rook_mask +. bishop_mask
+knight_mask =: (0 0 , 1 2 ,: 2 1) e.~ [: (**) relative_coords
+
+file =: 'abcdefgh' i. ]
+rank =: '12345678' i. ]
+piece =: [: <. 2 %~ 'kKqQrRbBnN' i. ]
+
+parse_file =: (] ; (}.~ 8 ~: ])) file@{.
+parse_rank =: (] ; (}.~ 8 ~: ])) rank@{.
+parse_piece =: (] ; (}.~ 5 ~: ])) piece@{.
+parse_takes =: (] ; }.~) 'x' = {.
+after =: ([,>@:])/ @: ([ ` ([. &. >) " 0) @: ].
